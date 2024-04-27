@@ -54,7 +54,7 @@ namespace ChessUI
         }
         private void BoardGrid_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if(IsMenuOnScreen())
+            if (IsMenuOnScreen())
             {
                 return;
             }
@@ -108,7 +108,7 @@ namespace ChessUI
         }
         private void HandlePromotion(Position fromPosition, Position toPosition)
         {
-            PieceImages[toPosition.Row, toPosition.Column].Source = Images.GetImage(gameState.Current,PieceType.Pawn);
+            PieceImages[toPosition.Row, toPosition.Column].Source = Images.GetImage(gameState.Current, PieceType.Pawn);
             PieceImages[fromPosition.Row, fromPosition.Column].Source = null;
 
             PromotionMenu promoMenu = new PromotionMenu(gameState.Current);
@@ -125,8 +125,7 @@ namespace ChessUI
         {
             gameState.MakeMove(move);
             Showcase(gameState.Board);
-
-
+            System.Diagnostics.Debug.WriteLine(gameState.IsGameOver());
             if (gameState.IsGameOver())
             {
                 ShowGameOver();
@@ -160,7 +159,6 @@ namespace ChessUI
         private bool IsMenuOnScreen()
         {
             return MenuContainer.Content != null;
-
         }
 
         private void ShowGameOver()

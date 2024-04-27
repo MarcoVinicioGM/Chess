@@ -29,7 +29,8 @@
             Board.setPawnSkippedSpaces(Current, null);
             move.Execute(Board);
             Current = Current.Oppponent();
-            CheckForGameOver(Current);
+            CheckForGameOver();
+            System.Diagnostics.Debug.WriteLine(Result);
         }
         public IEnumerable<Moves> AllPossibleMoves(Player player)
         {
@@ -40,13 +41,13 @@
             });
             return moveCandidates.Where(move => move.isLegal(Board));
         }
-        public void CheckForGameOver(Player player)
+        public void CheckForGameOver()
         {
-            if (AllPossibleMoves(player) == null)
+            if (!AllPossibleMoves(Current).Any())
             {
-                if (Board.IsInCheck(player))
+                if (Board.IsInCheck(Current))
                 {
-                    Result = Result.Win(player.Oppponent());
+                    Result = Result.Win(Current.Oppponent());
                 }
                 else
                 {

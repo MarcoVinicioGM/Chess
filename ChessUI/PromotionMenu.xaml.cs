@@ -1,12 +1,13 @@
 ﻿using Chesslogic;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace ChessUI
 {
     /// <summary>
     /// Interaction logic for PromotionMenu.xaml
     /// </summary>
-    public partial class PromotionMenu : Window
+    public partial class PromotionMenu : UserControl
     {
         public event Action<PieceType> PieceSelected;
         public PromotionMenu(Player player)
@@ -20,22 +21,19 @@ namespace ChessUI
         private void Queen_MouseDown(object sender, RoutedEventArgs e)
         {
             PieceSelected?.Invoke(PieceType.Queen);
-            Close();
+
         }
         private void Rook_MouseDown(object sender, RoutedEventArgs e)
         {
             PieceSelected?.Invoke(PieceType.Rook);
-            Close();
         }
         private void Bishop_MouseDown(object sender, RoutedEventArgs e)
         {
             PieceSelected?.Invoke(PieceType.Bishop);
-            Close();
         }
         private void Knight_MouseDown(object sender, RoutedEventArgs e)
         {
             PieceSelected?.Invoke(PieceType.Knight);
-            Close();
         }
 
     }
