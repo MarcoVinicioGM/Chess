@@ -42,25 +42,5 @@
                 return piece != null && piece.Type == PieceType.King;
             });
         }
-        public static Piece Factory(PieceType pt, int col, int row, Player player)
-        {
-            switch (pt)
-            {
-                case PieceType.Pawn:
-                    return new Pawn(col, row, player);
-                case PieceType.Rook:
-                    return new Rook(col, row, player);
-                case PieceType.Knight:
-                    return new Knight(col, row, player);
-                case PieceType.Bishop:
-                    return new Bishop(col, row, player);
-                case PieceType.Queen:
-                    return new Queen(col, row, player);
-                case PieceType.King:
-                    return new King(col, row, player);
-                default:
-                    throw new Exception("Invalid PieceType");
-            }
-        }
     }
 }
