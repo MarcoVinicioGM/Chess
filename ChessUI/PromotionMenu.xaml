@@ -5,16 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ChessUI"
         mc:Ignorable="d"
-        Title="PromotionMenu" Height="450" Width="800">
-    <Grid>
-        <Border Width="275" Height="125" Style="{StaticResource BorderStyle}">
+        d:DesignHeight="450" d:DesignWidth="800">
+    <Border Width="275" Height="125" Style="{StaticResource BorderStyle}">
             <Grid RenderOptions.BitmapScalingMode="HighQuality">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="1.5*"></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="SELECT A PIECE" Style="{StaticResource TextBlockStyle}" FontSize="28"/>
+                <TextBlock Text="SELECT A PIECE" Style="{StaticResource TextStyle}" FontSize="28"/>
 
                 <UniformGrid Grid.Row="1" Rows="1" Columns="4" Cursor="Hand">
                     <Image x:Name="QueenW" Source="Assets/QueenW.png" Stretch="Fill" MouseDown="Queen_MouseDown"/>
@@ -24,5 +23,4 @@
                 </UniformGrid>
             </Grid>
         </Border>
-    </Grid>
 </Window>

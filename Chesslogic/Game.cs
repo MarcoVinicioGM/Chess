@@ -57,8 +57,6 @@
         public bool IsGameOver()
         {
             return Result != null;
-
         }
-
     }
 }

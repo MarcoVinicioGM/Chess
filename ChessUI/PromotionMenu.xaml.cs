@@ -17,22 +17,22 @@ namespace ChessUI
             BishopW.Source = Images.GetImage(player, PieceType.Bishop);
             KnightW.Source = Images.GetImage(player, PieceType.Knight);
         }
-        private void QueenButton_MouseDown(object sender, RoutedEventArgs e)
+        private void Queen_MouseDown(object sender, RoutedEventArgs e)
         {
             PieceSelected?.Invoke(PieceType.Queen);
             Close();
         }
-        private void RookButton_MouseDown(object sender, RoutedEventArgs e)
+        private void Rook_MouseDown(object sender, RoutedEventArgs e)
         {
             PieceSelected?.Invoke(PieceType.Rook);
             Close();
         }
-        private void BishopButton_MouseDown(object sender, RoutedEventArgs e)
+        private void Bishop_MouseDown(object sender, RoutedEventArgs e)
         {
             PieceSelected?.Invoke(PieceType.Bishop);
             Close();
         }
-        private void KnightButton_MouseDown(object sender, RoutedEventArgs e)
+        private void Knight_MouseDown(object sender, RoutedEventArgs e)
         {
             PieceSelected?.Invoke(PieceType.Knight);
             Close();

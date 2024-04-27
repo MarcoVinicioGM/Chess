@@ -181,7 +181,6 @@ namespace ChessUI
                 }
             };
         }
-
         private void RestartGame()
         {
             HideHighlights();
