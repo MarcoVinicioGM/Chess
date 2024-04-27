@@ -26,12 +26,12 @@ namespace Chesslogic
         }
         private static IEnumerable<Position> PotentialPositions(Position from)
         {
-            foreach (PositionDirection dir in new PositionDirection[] {PositionDirection.Up, PositionDirection.Down})
+            foreach (PositionDirection dir in new PositionDirection[] { PositionDirection.Up, PositionDirection.Down })
             {
-                foreach(PositionDirection dir2 in new PositionDirection[] {PositionDirection.Left, PositionDirection.Right})
+                foreach (PositionDirection dir2 in new PositionDirection[] { PositionDirection.Left, PositionDirection.Right })
                 {
-                    yield return from + 2 *dir + dir2;
-                    yield return from + dir + 2 *dir2;
+                    yield return from + 2 * dir + dir2;
+                    yield return from + dir + 2 * dir2;
                 }
             }
         }

@@ -6,7 +6,6 @@ namespace Chesslogic
     {
         public override PieceType Type => PieceType.Queen;
         public override Player Color { get; }
-        public bool HasMoved { get; set; } = false;
 
         private static readonly PositionDirection[] dirs = new PositionDirection[]
         {

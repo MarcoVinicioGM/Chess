@@ -1,6 +1,4 @@
-﻿using System.Security.AccessControl;
-
-namespace Chesslogic
+﻿namespace Chesslogic
 {   //Abstract because all pieces will inherit from this class
     public abstract class Piece
     {
@@ -31,10 +29,18 @@ namespace Chesslogic
                 yield break;
             }
         }
-
-        protected IEnumerable<Position> MovePositionInDir(Position from, Board board, PositionDirection[] dirs)
+        public IEnumerable<Position> MovePositionInDir(Position from, Board board, PositionDirection[] dirs)
         {
-            return dirs.SelectMany(d => MovePositionInDir(from, board, d));
+            return dirs.SelectMany(dir => MovePositionInDir(from, board, dir));
+        }
+
+        public virtual bool canCaptureOpponent(Position from, Board board)
+        {
+            return GetMoves(from, board).Any(move =>
+            {
+                Piece piece = board[move.ToPosition];
+                return piece != null && piece.Type == PieceType.King;
+            });
         }
         public static Piece Factory(PieceType pt, int col, int row, Player player)
         {

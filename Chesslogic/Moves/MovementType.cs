@@ -6,7 +6,8 @@
         Capture,
         EnPassant,
         DoublePawn,
-        Castling,
+        CastleKingSide,
+        CastleQueenSide,
         Promotion
     }
 }

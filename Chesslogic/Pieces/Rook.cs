@@ -14,7 +14,6 @@ namespace Chesslogic
             PositionDirection.Right,
             PositionDirection.Left
         };
-        public bool HasMoved { get; set; } = false;
         public Rook(Player color)
         {
             Color = color;

@@ -1,6 +1,4 @@
-﻿
-
-namespace Chesslogic
+﻿namespace Chesslogic
 {
     public class Position
     {
