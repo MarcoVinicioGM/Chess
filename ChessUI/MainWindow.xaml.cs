@@ -11,7 +11,7 @@ namespace ChessUI
     {
         private readonly Image[,] PieceImages = new Image[8, 8];
 
-        private readonly Game gameState;
+        private Game gameState;
         private Position selectedPosition = null;
 
         private readonly System.Windows.Shapes.Rectangle[,] highlights = new System.Windows.Shapes.Rectangle[8, 8];
@@ -54,6 +54,11 @@ namespace ChessUI
         }
         private void BoardGrid_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            if(IsMenuOnScreen())
+            {
+                return;
+            }
+
             System.Windows.Point point = e.GetPosition(BoardGrid);
             Position pos = ToSquare(point);
 
@@ -98,6 +103,12 @@ namespace ChessUI
         {
             gameState.MakeMove(move);
             Showcase(gameState.Board);
+
+
+            if (gameState.IsGameOver(gameState))
+            {
+                ShowGameOver();
+            }
         }
 
         private void cacheMoves(IEnumerable<Moves> move)
@@ -124,5 +135,37 @@ namespace ChessUI
             }
         }
 
+        private bool IsMenuOnScreen()
+        {
+            return MenuContainer.Content != null;
+
+        }
+
+        private void ShowGameOver()
+        {
+            GameOverMenu gameOverMenu = new GameOverMenu(gameState);
+            MenuContainer.Content = gameOverMenu;
+
+            gameOverMenu.OptionSelected += option =>
+            {
+                if (option == Option.Restart)
+                {
+                    MenuContainer.Content = null;
+                    RestartGame();
+                }
+                else
+                {
+                    Application.Current.Shutdown();
+                }
+            };
+        }
+
+        private void RestartGame()
+        {
+            HideHighlights();
+            moveCache.Clear();
+            gameState = new Game(Player.White, Board.Initialize());
+            Showcase(gameState.Board);
+        }
     }
 }
