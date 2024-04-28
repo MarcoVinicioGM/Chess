@@ -1,19 +1,16 @@
-﻿using System.Runtime.InteropServices;
-
-namespace Chesslogic
+﻿namespace Chesslogic
 {
     public class Pawn : Piece
     {
         public override PieceType Type => PieceType.Pawn;
         public override Player Color { get; }
-        public bool HasMoved { get; set; } = false;
 
         private readonly PositionDirection forward;
 
         public Pawn(Player color)
         {
             Color = color;
-            if(Color == Player.White)
+            if (Color == Player.White)
             {
                 forward = PositionDirection.Up;
             }
@@ -24,11 +21,11 @@ namespace Chesslogic
         }
         private static bool canMove(Position pos, Board board)
         {
-            return Board.IsInBounds(pos) && board[pos] == null;
+            return Board.IsInBounds(pos) && board.isEmpty(pos);
         }
         private bool CanCapture(Position pos, Board board)
         {
-            if(!Board.IsInBounds(pos) || board.isEmpty(pos))
+            if (!Board.IsInBounds(pos) || board.isEmpty(pos))
             {
                 return false;
             }
@@ -38,27 +35,52 @@ namespace Chesslogic
         private IEnumerable<Moves> ForwardMoves(Position from, Board board)
         {
             Position ahead = from + forward;
-            if (HasMoved == true)
+
+            if (canMove(ahead, board))
             {
-                if (canMove(ahead, board))
+                if (ahead.Row == 0 || ahead.Row == 7)
+                {
+                    foreach (Moves move in PromotionMoves(from, ahead))
+                    {
+                        yield return move;
+                    }
+                }
+                else
                 {
                     yield return new normalMove(from, ahead);
                 }
-            }
-            else if (canMove(ahead + forward, board))
-            {
-                yield return new normalMove(from, ahead + forward);
+
+                if (canMove(ahead + forward, board) && !HasMoved)
+                {
+                    yield return new SkippedPawn(from, ahead + forward);
+                }
             }
         }
         private IEnumerable<Moves> Captures(Position from, Board board)
         {
-            foreach(PositionDirection dir in new PositionDirection[] 
-            {PositionDirection.UpLeft, PositionDirection.UpRight})
+            foreach (PositionDirection dir in new PositionDirection[]
+            {PositionDirection.Left, PositionDirection.Right})
             {
-                Position pos = from + dir;
-                if(CanCapture(pos, board))
+                Position to = from + forward + dir;
+
+                if (to == board.getPawnSkippedSpaces(Color.Oppponent()))
+
                 {
-                    yield return new normalMove(from, pos);
+                    yield return new EnPassant(from, to);
+                }
+                else if (CanCapture(to, board))
+                {
+                    if (to.Row == 0 || to.Row == 7)
+                    {
+                        foreach (Moves move in PromotionMoves(from, to))
+                        {
+                            yield return move;
+                        }
+                    }
+                    else
+                    {
+                        yield return new normalMove(from, to);
+                    }
                 }
             }
         }
@@ -66,6 +88,22 @@ namespace Chesslogic
         public override IEnumerable<Moves> GetMoves(Position from, Board board)
         {
             return ForwardMoves(from, board).Concat(Captures(from, board));
+        }
+
+        private static IEnumerable<Moves> PromotionMoves(Position from, Position to)
+        {
+
+            foreach (PieceType pt in new PieceType[]
+            {
+                PieceType.Queen,
+                PieceType.Rook,
+                PieceType.Bishop,
+                PieceType.Knight
+            })
+            {
+                yield return new Promotion(from, to, pt);
+            }
+
         }
         public override Piece Copy()
         {
@@ -79,6 +117,5 @@ namespace Chesslogic
             this.col = col;
             Color = color;
         }
-
     }
 }

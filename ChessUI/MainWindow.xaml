@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ChessUI"
         mc:Ignorable="d"
-        Title="Chess++" Width ="600" SizeToContent="Height"
+        d:Width ="600" d:SizeToContent="Height"
         Icon = "Assets/icon.ico"
         WindowStartupLocation="CenterScreen"
         Background="Black">
@@ -13,14 +13,22 @@
     <Viewbox>
         <Grid x:Name ="BoardGrid"
             Width = "600"
-            Height= "600">
+            Height= "600"
+            MouseDown="BoardGrid_MouseDown">
+            
             <Grid.Background>
                 <ImageBrush ImageSource="Assets/Board.png"/>
             </Grid.Background>
-
+            <UniformGrid x:Name="HighlightGrid"
+                         Rows="8"
+                         Columns="8">
+            </UniformGrid>
+            
             <UniformGrid x:Name="PieceGrid"
                          Rows="8"
                          Columns="8" d:IsHidden="True"/>
+
+            <ContentControl x:Name="MenuContainer"/>
         </Grid>
     </Viewbox>
 </Window>

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Chesslogic
+﻿namespace Chesslogic
 {
     public class normalMove : Moves
     {
@@ -21,9 +15,14 @@ namespace Chesslogic
         public override void Execute(Board board)
         {
             Piece piece = board[FromPosition];
-            board[ToPosition] = piece;
-            board[FromPosition] = null;
-            piece.HasMoved = true;
-        }   
+
+            if (piece != null)
+            {
+                board[ToPosition] = piece;
+                board[FromPosition] = null;
+                piece.HasMoved = true;
+            }
+
+        }
     }
 }
