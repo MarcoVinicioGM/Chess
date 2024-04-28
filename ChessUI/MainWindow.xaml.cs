@@ -105,7 +105,7 @@ namespace ChessUI
             Showcase(gameState.Board);
 
 
-            if (gameState.IsGameOver(gameState))
+            if (gameState.IsGameOver())
             {
                 ShowGameOver();
             }

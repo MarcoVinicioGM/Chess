@@ -55,9 +55,9 @@
                 }
             }
         }
-        public bool IsGameOver(Game gameState)
+        public bool IsGameOver()
         {
-            return gameState.Result != null;
+            return Result != null;
 
         }
 
