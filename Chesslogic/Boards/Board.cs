@@ -147,7 +147,6 @@ namespace Chesslogic
             }
             return false;
         }
-
         public Board Copy()
         {
             Board copy = new Board();

@@ -31,7 +31,6 @@
             Current = Current.Oppponent();
             CheckForGameOver(Current);
         }
-
         public IEnumerable<Moves> AllPossibleMoves(Player player)
         {
             IEnumerable<Moves> moveCandidates = Board.PiecePositionsFor(player).SelectMany(pos =>
