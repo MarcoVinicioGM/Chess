@@ -22,7 +22,8 @@ namespace ChessUI
         {
             InitializeComponent();
             InitializeBoard();
-            
+            gameState = new Game(Player.White, Board.Initialize());
+            Showcase(gameState.Board);
         }
         private void InitializeBoard()
         {

@@ -29,8 +29,6 @@
                          Columns="8" d:IsHidden="True"/>
 
             <ContentControl x:Name="MenuContainer"/>
-
-            <local:StartMenu x:Name="StartMenuControl" />
         </Grid>
     </Viewbox>
 </Window>
