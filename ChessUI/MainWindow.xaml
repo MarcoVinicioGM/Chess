@@ -30,7 +30,6 @@
 
             <ContentControl x:Name="MenuContainer"/>
 
-            <local:StartMenu x:Name="StartMenuControl" />
         </Grid>
     </Viewbox>
 </Window>

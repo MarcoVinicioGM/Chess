@@ -3,7 +3,6 @@
     public enum MovementType
     {
         Move,
-        Capture,
         EnPassant,
         DoublePawn,
         CastleKingSide,

@@ -8,39 +8,76 @@ namespace Chesslogic
 {
     public class AtomicChess : Game
     {
+        public new Board Board { get; }
+        public new Player Current { get; private set; }
+
+        public new Result Result { get; private set; } = null;
+
         public AtomicChess(Player player, Board board) : base(player, board)
         {
+            this.Board = board;
         }
         public override void MakeMove(Moves move)
         {
+            bool isCapture = Board[move.ToPosition] != null && Board[move.ToPosition].Color != Current;
             base.MakeMove(move);
-            if (move.ToPosition != null)
+
+            if (isCapture)
             {
-                Explode(move.ToPosition);
+                Explode(move.ToPosition, Current);
             }
+
+            CheckForGameOver();
+            ToggleCurrentPlayer();
         }
-        private void Explode(Position pos)
+        private void ToggleCurrentPlayer()
         {
-            var Victims = GetSurroundingPositions(pos);
-            foreach(Position victim in Victims)
+            Current = (Current == Player.White) ? Player.Black : Player.White;
+        }
+        private void Explode(Position position, Player currentPlayer)
+        {
+            var positions = GetSurroundingPositions(position);
+
+            foreach (Position pos in positions)
             {
-                if (Board.IsInBounds(victim) && Board[pos] != null && Board[pos].Type != PieceType.Pawn){
-                    Board[victim] = null;
+                if (Board == null)
+                {
+                    System.Diagnostics.Debug.WriteLine("Error: Board is null!");
+                }
+                if (Board.IsInBounds(pos))
+                {
+                    Piece piece = Board[pos];  // Error check here
+                    if (piece == null)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"No piece at valid position {pos.Row}, {pos.Column}");
+                    }
+                    else if (piece.Color != currentPlayer && piece.Type != PieceType.Pawn && piece.Type != PieceType.King)
+                    {
+                        Board[pos] = null;
+                    }
                 }
             }
         }
+
         private IEnumerable<Position> GetSurroundingPositions(Position pos)
         {
-            Position[] positions = new Position[8];
-            positions[0] = new Position(pos.Row - 1, pos.Column - 1);
-            positions[1] = new Position(pos.Row - 1, pos.Column);
-            positions[2] = new Position(pos.Row - 1, pos.Column + 1);
-            positions[3] = new Position(pos.Row, pos.Column - 1);
-            positions[4] = new Position(pos.Row, pos.Column + 1);
-            positions[5] = new Position(pos.Row + 1, pos.Column - 1);
-            positions[6] = new Position(pos.Row + 1, pos.Column);
-            positions[7] = new Position(pos.Row + 1, pos.Column + 1);
+            List<Position> positions = new List<Position>();
+
+            for (int rowOffset = -1; rowOffset <= 1; rowOffset++)
+            {
+                for (int colOffset = -1; colOffset <= 1; colOffset++)
+                {
+                    if (rowOffset == 0 && colOffset == 0) continue; // Skip the current position
+                    Position adjacentPosition = new Position(pos.Row + rowOffset, pos.Column + colOffset);
+                    if (Board.IsInBounds(adjacentPosition))
+                    {
+                        positions.Add(adjacentPosition);
+                    }
+                }
+            }
+
             return positions;
         }
+
     }
 }

@@ -17,11 +17,21 @@ namespace ChessUI
         private readonly System.Windows.Shapes.Rectangle[,] highlights = new System.Windows.Shapes.Rectangle[8, 8];
         private readonly Dictionary<Position, Moves> moveCache = new Dictionary<Position, Moves>();
         private static String fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+        private bool RunRegular = true;
 
         public MainWindow()
         {
             InitializeComponent();
             InitializeBoard();
+            if (RunRegular == true)
+            {
+                gameState = new Game(Player.White, Board.Initialize());
+            }
+            else
+            {
+                gameState = new AtomicChess(Player.White, Board.Initialize());
+            }
+            Showcase(gameState.Board);
             
         }
         private void InitializeBoard()
@@ -182,7 +192,16 @@ namespace ChessUI
         {
             HideHighlights();
             moveCache.Clear();
-            gameState = new Game(Player.White, Board.Initialize());
+            RunRegular = false;
+
+            if (RunRegular == true)
+            {
+                gameState = new Game(Player.White, Board.Initialize());
+            }
+            else
+            {
+                gameState = new AtomicChess(Player.White, Board.Initialize());
+            }
             Showcase(gameState.Board);
         }
     }

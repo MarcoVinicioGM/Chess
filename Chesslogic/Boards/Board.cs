@@ -176,11 +176,6 @@ namespace Chesslogic
             return PiecePosition().Where(pos => this[pos].Color == player);
         }
 
-        public static Board InitializeExp()
-        {
-            throw new NotImplementedException();
-        }
-
         public static Board InitializeFour()
         {
             throw new NotImplementedException();
