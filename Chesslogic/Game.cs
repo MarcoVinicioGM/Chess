@@ -24,12 +24,13 @@
             IEnumerable<Moves> Candidates = piece.GetMoves(pos, Board);
             return Candidates.Where(move => move.isLegal(Board));
         }
-        public virtual void MakeMove(Moves move)
+        public void MakeMove(Moves move)
         {
             Board.setPawnSkippedSpaces(Current, null);
             move.Execute(Board);
             Current = Current.Oppponent();
             CheckForGameOver();
+            System.Diagnostics.Debug.WriteLine(Result);
         }
         public IEnumerable<Moves> AllPossibleMoves(Player player)
         {
