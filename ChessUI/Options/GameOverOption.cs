@@ -1,6 +1,6 @@
 ﻿namespace ChessUI
 {
-    public enum Option
+    public enum Options
     {
         Restart,
         Exit,
