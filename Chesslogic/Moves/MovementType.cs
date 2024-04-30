@@ -3,10 +3,10 @@
     public enum MovementType
     {
         Move,
-        Capture,
         EnPassant,
         DoublePawn,
-        Castling,
+        CastleKingSide,
+        CastleQueenSide,
         Promotion
     }
 }

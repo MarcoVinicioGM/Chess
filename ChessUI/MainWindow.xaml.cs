@@ -1,6 +1,9 @@
 ﻿using Chesslogic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using Color = System.Windows.Media.Color;
+using Rectangle = System.Windows.Shapes.Rectangle;
 
 namespace ChessUI
 {
@@ -8,14 +11,59 @@ namespace ChessUI
     {
         private readonly Image[,] PieceImages = new Image[8, 8];
 
-        private readonly Game gameState;
+        private Game gameState;
+        private Position selectedPosition = null;
+
+        private readonly System.Windows.Shapes.Rectangle[,] highlights = new System.Windows.Shapes.Rectangle[8, 8];
+        private readonly Dictionary<Position, Moves> moveCache = new Dictionary<Position, Moves>();
+        private static String fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+        private bool RunRegular = true;
+
         public MainWindow()
         {
             InitializeComponent();
+            DisplayMenu();
             InitializeBoard();
-            gameState = new Game(Player.White, Board.Initialize());
+            if (RunRegular == true)
+            {
+                gameState = new Game(Player.White, Board.Initialize());
+            }
+            else
+            {
+                gameState = new AtomicChess(Player.White, Board.Initialize());
+            }
             Showcase(gameState.Board);
+            
         }
+        private void DisplayMenu()
+        {
+            StartMenu startMenu = new StartMenu();
+            MainContent.Content = startMenu;
+
+            startMenu.OptionSelected += option =>
+            {
+                switch (option)
+                {
+                    case StartMenuOption.RegChess:
+                        RunRegular = true;
+                        break;
+
+                    case StartMenuOption.FourChess:
+                        RunRegular = false; // Adjust as needed for 4x4 Chess mode
+                        break;
+
+                    case StartMenuOption.ExpChess:
+                        RunRegular = false; // Adjust as needed for Exploding Chess mode
+                        break;
+
+                    default:
+                        break;
+                }
+                MainContent.Content = null;
+                RestartGame();
+            };
+        }
+
         private void InitializeBoard()
         {
             for (int x = 0; x < 8; x++)
@@ -26,6 +74,9 @@ namespace ChessUI
                     PieceImages[x, y] = image;
                     PieceGrid.Children.Add(image);
 
+                    System.Windows.Shapes.Rectangle highlight = new Rectangle();
+                    highlights[x, y] = highlight;
+                    HighlightGrid.Children.Add(highlight);
                 }
             }
         }
@@ -40,8 +91,6 @@ namespace ChessUI
                 }
             }
         }
-<<<<<<< HEAD
-=======
         private void BoardGrid_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (IsMenuOnScreen())
@@ -173,9 +222,17 @@ namespace ChessUI
         {
             HideHighlights();
             moveCache.Clear();
-            gameState = new Game(Player.White, Board.Initialize());
+
+
+            if (RunRegular == true)
+            {
+                gameState = new Game(Player.White, Board.Initialize());
+            }
+            else
+            {
+                gameState = new AtomicChess(Player.White, Board.Initialize());
+            }
             Showcase(gameState.Board);
         }
->>>>>>> e4ac12f (FIXED CHECKFORGAMEOVER FUNCTION AAHHH)
     }
 }

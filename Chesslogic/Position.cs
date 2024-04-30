@@ -1,6 +1,4 @@
-﻿
-
-namespace Chesslogic
+﻿namespace Chesslogic
 {
     public class Position
     {
@@ -14,7 +12,6 @@ namespace Chesslogic
             Row = row;
             Column = column;
         }
-
         public Player SquareColor()
         {
             if ((Row + Column) % 2 == 0)
