@@ -15,7 +15,7 @@
             Width = "600"
             Height= "600"
             MouseDown="BoardGrid_MouseDown">
-            
+
             <Grid.Background>
                 <ImageBrush ImageSource="Assets/Board.png"/>
             </Grid.Background>
@@ -23,13 +23,20 @@
                          Rows="8"
                          Columns="8">
             </UniformGrid>
-            
+
             <UniformGrid x:Name="PieceGrid"
                          Rows="8"
                          Columns="8" d:IsHidden="True"/>
 
-            <ContentControl x:Name="MenuContainer"/>
+            <!-- Main Content Control for hosting StartMenu, Game Settings, etc. -->
+            <ContentControl  x:Name="MainContent">
+                <!-- Define StartMenu, Game Settings, etc. -->
+            </ContentControl>
 
+            <!-- Secondary Content for smaller menus or dialogs -->
+            <ContentControl  x:Name="MenuContainer">
+                <!-- Placeholder for additional menus or dialogs -->
+            </ContentControl>
         </Grid>
     </Viewbox>
 </Window>

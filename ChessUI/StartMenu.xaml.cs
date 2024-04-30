@@ -22,6 +22,7 @@ namespace ChessUI
     {
 
         public event Action<StartMenuOption> OptionSelected;
+ 
         public StartMenu()
         {
             InitializeComponent();
@@ -30,16 +31,19 @@ namespace ChessUI
         private void ExpChess(object sender, RoutedEventArgs e)
         {
             OptionSelected.Invoke(StartMenuOption.ExpChess);
+            
         }
 
         private void FourChess(object sender, RoutedEventArgs e)
         {
             OptionSelected.Invoke(StartMenuOption.FourChess);
+            
         }
 
         private void RegChess(object sender, RoutedEventArgs e)
         {
             OptionSelected.Invoke(StartMenuOption.RegChess);
+           
         }
     }
 }

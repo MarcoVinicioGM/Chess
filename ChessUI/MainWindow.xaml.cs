@@ -22,6 +22,7 @@ namespace ChessUI
         public MainWindow()
         {
             InitializeComponent();
+            DisplayMenu();
             InitializeBoard();
             if (RunRegular == true)
             {
@@ -34,6 +35,35 @@ namespace ChessUI
             Showcase(gameState.Board);
             
         }
+        private void DisplayMenu()
+        {
+            StartMenu startMenu = new StartMenu();
+            MainContent.Content = startMenu;
+
+            startMenu.OptionSelected += option =>
+            {
+                switch (option)
+                {
+                    case StartMenuOption.RegChess:
+                        RunRegular = true;
+                        break;
+
+                    case StartMenuOption.FourChess:
+                        RunRegular = false; // Adjust as needed for 4x4 Chess mode
+                        break;
+
+                    case StartMenuOption.ExpChess:
+                        RunRegular = false; // Adjust as needed for Exploding Chess mode
+                        break;
+
+                    default:
+                        break;
+                }
+                MainContent.Content = null;
+                RestartGame();
+            };
+        }
+
         private void InitializeBoard()
         {
             for (int x = 0; x < 8; x++)
@@ -192,7 +222,7 @@ namespace ChessUI
         {
             HideHighlights();
             moveCache.Clear();
-            RunRegular = false;
+            
 
             if (RunRegular == true)
             {
