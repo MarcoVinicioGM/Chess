@@ -4,13 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ChessUI"
-        xmlns:controls="clr-namespace:ChessUI.Controls"
         mc:Ignorable="d"
-        d:Width="600" d:SizeToContent="Height"
-        Icon="Assets/icon.ico"
+        d:Width ="600" d:SizeToContent="Height"
+        Icon = "Assets/icon.ico"
         WindowStartupLocation="CenterScreen"
         Background="Black">
-
     <Viewbox>
         <Grid>
             <!-- Regular chess board -->
@@ -48,6 +46,7 @@
                     <Grid.Background>
                         <ImageBrush ImageSource="Assets/HexBoard.png" />
                     </Grid.Background>
+
                     <UniformGrid x:Name="HexhighlightGrid"
                      Rows="9"
                      Columns="9" />

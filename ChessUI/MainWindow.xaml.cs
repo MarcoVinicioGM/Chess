@@ -23,21 +23,25 @@ namespace ChessUI
         {
             InitializeComponent();
             DisplayMenu();
-            InitializeBoard();
             if (RunRegular == 0)
             {
                 gameState = new Game(Player.White, Board.Initialize());
+                InitializeBoard();
+                Showcase(gameState.Board);
             }
-            else if (RunRegular == 1)
+            else if (RunRegular == 2)
             {
                 gameState = new AtomicChess(Player.White, Board.Initialize());
+                InitializeBoard();
+                Showcase(gameState.Board);
             }
-            else if(RunRegular == 2)
+            else if(RunRegular == 1)
             {
+                InitializeHex();
                 ShowHexagonalChessBoard();
+
                 //gameState = new HexChess(Player.White, Board.Initialize());
             }
-            Showcase(gameState.Board);
             
         }
 
@@ -118,7 +122,7 @@ namespace ChessUI
 
                 // Create and add the image for the piece
                 Image image = new Image();
-                PieceImages[row, col] = image;
+                PieceImages[row, 0] = image;
                 HexGrid.Children.Add(image);
 
                 // Create and add the highlight rectangle
@@ -286,12 +290,19 @@ namespace ChessUI
             if (RunRegular == 0)
             {
                 gameState = new Game(Player.White, Board.Initialize());
+                Showcase(gameState.Board);
             }
-            else
+            else if(RunRegular == 2)
             {
                 gameState = new AtomicChess(Player.White, Board.Initialize());
+                Showcase(gameState.Board);
             }
-            Showcase(gameState.Board);
+            else if(RunRegular == 1)
+            {
+                InitializeHex();
+                ShowHexagonalChessBoard();
+                //gameState = new HexChess(Player.White, Board.Initialize());
+            }
         }
 
         private void HexGrid_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
