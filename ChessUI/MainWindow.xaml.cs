@@ -17,23 +17,40 @@ namespace ChessUI
         private readonly System.Windows.Shapes.Rectangle[,] highlights = new System.Windows.Shapes.Rectangle[8, 8];
         private readonly Dictionary<Position, Moves> moveCache = new Dictionary<Position, Moves>();
         private static String fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-        private bool RunRegular = true;
+        private int RunRegular = 0;
 
         public MainWindow()
         {
             InitializeComponent();
             DisplayMenu();
             InitializeBoard();
-            if (RunRegular == true)
+            if (RunRegular == 0)
             {
                 gameState = new Game(Player.White, Board.Initialize());
             }
-            else
+            else if (RunRegular == 1)
             {
                 gameState = new AtomicChess(Player.White, Board.Initialize());
             }
+            else if(RunRegular == 2)
+            {
+                ShowHexagonalChessBoard();
+                //gameState = new HexChess(Player.White, Board.Initialize());
+            }
             Showcase(gameState.Board);
             
+        }
+
+        private void ShowRegularChessBoard()
+        {
+            RegularChessBoard.Visibility = Visibility.Visible;
+            HexBoard.Visibility = Visibility.Collapsed;
+        }
+
+        private void ShowHexagonalChessBoard()
+        {
+            RegularChessBoard.Visibility = Visibility.Collapsed;
+            HexBoard.Visibility = Visibility.Visible;
         }
         private void DisplayMenu()
         {
@@ -45,15 +62,15 @@ namespace ChessUI
                 switch (option)
                 {
                     case StartMenuOption.RegChess:
-                        RunRegular = true;
+                        RunRegular = 0;
                         break;
 
                     case StartMenuOption.FourChess:
-                        RunRegular = false; // Adjust as needed for 4x4 Chess mode
+                        RunRegular = 1; // Adjust as needed for 4x4 Chess mode
                         break;
 
                     case StartMenuOption.ExpChess:
-                        RunRegular = false; // Adjust as needed for Exploding Chess mode
+                        RunRegular = 2; // Adjust as needed for Exploding Chess mode
                         break;
 
                     default:
@@ -80,6 +97,7 @@ namespace ChessUI
                 }
             }
         }
+
         private void Showcase(Board board)
         {
             for (int x = 0; x < 8; x++)
@@ -91,6 +109,47 @@ namespace ChessUI
                 }
             }
         }
+        private void InitializeHex()
+        {
+            for (int i = 0; i < 91; i++)
+            {
+                int row, col;
+                GetRowColFromHex(i, out row, out col);
+
+                // Create and add the image for the piece
+                Image image = new Image();
+                PieceImages[row, col] = image;
+                HexGrid.Children.Add(image);
+
+                // Create and add the highlight rectangle
+                System.Windows.Shapes.Rectangle highlight = new Rectangle();
+                highlights[row, col] = highlight;
+                HighlightGrid.Children.Add(highlight);
+            }
+        }
+
+        private void GetRowColFromHex(int index, out int row, out int col)
+        {
+            row = index / 9;
+            col = index % 9;
+        }
+        private void ShowcaseHex(Board board)
+        {
+            for (int i = 0; i < 91; i++)
+            {
+                int row, col;
+                GetRowColFromIndex(i, out row, out col);
+                Piece piece = board[i, 0];
+                PieceImages[row, col].Source = Images.GetImage(piece);
+            }
+        }
+
+        private void GetRowColFromIndex(int index, out int row, out int col)
+        {
+            row = index / 9;
+            col = index % 9;
+        }
+
         private void BoardGrid_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (IsMenuOnScreen())
@@ -224,7 +283,7 @@ namespace ChessUI
             moveCache.Clear();
 
 
-            if (RunRegular == true)
+            if (RunRegular == 0)
             {
                 gameState = new Game(Player.White, Board.Initialize());
             }
@@ -233,6 +292,11 @@ namespace ChessUI
                 gameState = new AtomicChess(Player.White, Board.Initialize());
             }
             Showcase(gameState.Board);
+        }
+
+        private void HexGrid_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+
         }
     }
 }

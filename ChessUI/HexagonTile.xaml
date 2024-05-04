@@ -1,0 +1,13 @@
+﻿<UserControl x:Class="ChessUI.Controls.HexagonTile"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="50" d:DesignWidth="50">
+    <Grid>
+        <Path Stroke="Black" StrokeThickness="1"
+              Data="M 0.5,28.87 L 25,43.3 L 50,28.87 L 50,0 L 25,14.43 L 0.5,0 Z" />
+        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+    </Grid>
+</UserControl>
