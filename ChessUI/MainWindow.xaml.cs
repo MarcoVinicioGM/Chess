@@ -17,20 +17,37 @@ namespace ChessUI
         private readonly System.Windows.Shapes.Rectangle[,] highlights = new System.Windows.Shapes.Rectangle[8, 8];
         private readonly Dictionary<Position, Moves> moveCache = new Dictionary<Position, Moves>();
         private static String fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-        private bool RunRegular = true;
+        private ChessMode currentMode;
+        private enum ChessMode
+        {
+            RegularChess = 0,
+            ExplodingChess = 1,
+            Chess960 = 2,
+            FourChess = 3
+        }
 
         public MainWindow()
         {
             InitializeComponent();
             DisplayMenu();
             InitializeBoard();
-            if (RunRegular == true)
+            switch(currentMode)
             {
-                gameState = new Game(Player.White, Board.Initialize());
-            }
-            else
-            {
-                gameState = new AtomicChess(Player.White, Board.Initialize());
+                case ChessMode.RegularChess:
+                    gameState = new Game(Player.White, Board.Initialize());
+                    break;
+                case ChessMode.ExplodingChess:
+                    gameState = new AtomicChess(Player.White, Board.Initialize());
+                    break;
+                case ChessMode.Chess960:
+                    gameState = new Chess960(Player.White, Board.Initialize());
+                    break;
+                case ChessMode.FourChess:
+                    //gameState = new FourChess(Player.White, Board.Initialize());
+                    break;
+                default:
+                    gameState = new Game(Player.White, Board.Initialize());
+                    break;
             }
             Showcase(gameState.Board);
             
@@ -45,15 +62,18 @@ namespace ChessUI
                 switch (option)
                 {
                     case StartMenuOption.RegChess:
-                        RunRegular = true;
+                        currentMode = ChessMode.RegularChess;   
                         break;
 
                     case StartMenuOption.FourChess:
-                        RunRegular = false; // Adjust as needed for 4x4 Chess mode
+                        currentMode = ChessMode.FourChess;
                         break;
 
                     case StartMenuOption.ExpChess:
-                        RunRegular = false; // Adjust as needed for Exploding Chess mode
+                        currentMode = ChessMode.ExplodingChess;
+                        break;
+                    case StartMenuOption.Chess960:
+                        currentMode = ChessMode.Chess960;
                         break;
 
                     default:
@@ -207,7 +227,7 @@ namespace ChessUI
 
             gameOverMenu.OptionSelected += option =>
             {
-                if (option == Option.Restart)
+                if (option.Equals( Option.Restart))
                 {
                     MenuContainer.Content = null;
                     RestartGame();
@@ -223,16 +243,27 @@ namespace ChessUI
             HideHighlights();
             moveCache.Clear();
 
+            switch (currentMode)
+            {
+                case ChessMode.RegularChess:
+                    gameState = new Game(Player.White, Board.Initialize());
+                    break;
+                case ChessMode.ExplodingChess:
+                    gameState = new AtomicChess(Player.White, Board.Initialize());
+                    break;
+                case ChessMode.Chess960:
+                    gameState = new Game(Player.White, Board960.Initialize());
+                    break;
+                case ChessMode.FourChess:
+                    // Handle Four Chess mode initialization
+                    break;
+                default:
+                    // Handle default case
+                    break;
+            }
 
-            if (RunRegular == true)
-            {
-                gameState = new Game(Player.White, Board.Initialize());
-            }
-            else
-            {
-                gameState = new AtomicChess(Player.White, Board.Initialize());
-            }
             Showcase(gameState.Board);
         }
+
     }
 }

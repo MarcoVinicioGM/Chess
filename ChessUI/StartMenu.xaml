@@ -52,6 +52,15 @@
                 Click="FourChess" Grid.ColumnSpan="2" Margin="94,23,93,27" Grid.RowSpan="2"/>
 
             <Button
+                Grid.Row="1"
+                Content="Chess960"
+                Style="{StaticResource ButtonStyle}"
+                FontSize="10"
+                Width="80"
+                Height="20"
+                Click="Chess960" Grid.ColumnSpan="2" Margin="-90,23,93,27" Grid.RowSpan="2"/>
+
+            <Button
                 Grid.Row="2"
                 Content="Exploding Chess"
                 Style="{StaticResource ButtonStyle}"
