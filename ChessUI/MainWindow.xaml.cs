@@ -1,4 +1,5 @@
 ﻿using Chesslogic;
+using Chesslogic.Boards;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -23,7 +24,7 @@ namespace ChessUI
             RegularChess = 0,
             ExplodingChess = 1,
             Chess960 = 2,
-            FourChess = 3
+            HordeBoard = 3
         }
 
         public MainWindow()
@@ -42,7 +43,7 @@ namespace ChessUI
                 case ChessMode.Chess960:
                     gameState = new Chess960(Player.White, Board.Initialize());
                     break;
-                case ChessMode.FourChess:
+                case ChessMode.HordeBoard:
                     //gameState = new FourChess(Player.White, Board.Initialize());
                     break;
                 default:
@@ -65,8 +66,8 @@ namespace ChessUI
                         currentMode = ChessMode.RegularChess;   
                         break;
 
-                    case StartMenuOption.FourChess:
-                        currentMode = ChessMode.FourChess;
+                    case StartMenuOption.HordeBoard:
+                        currentMode = ChessMode.HordeBoard;
                         break;
 
                     case StartMenuOption.ExpChess:
@@ -254,8 +255,8 @@ namespace ChessUI
                 case ChessMode.Chess960:
                     gameState = new Game(Player.White, Board960.Initialize());
                     break;
-                case ChessMode.FourChess:
-                    // Handle Four Chess mode initialization
+                case ChessMode.HordeBoard:
+                    gameState = new Game(Player.White, BoardHorde.Initialize());
                     break;
                 default:
                     // Handle default case

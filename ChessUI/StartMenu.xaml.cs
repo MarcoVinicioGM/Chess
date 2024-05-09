@@ -30,20 +30,17 @@ namespace ChessUI
 
         private void ExpChess(object sender, RoutedEventArgs e)
         {
-            OptionSelected.Invoke(StartMenuOption.ExpChess);
-            
+            OptionSelected.Invoke(StartMenuOption.ExpChess);       
         }
 
-        private void FourChess(object sender, RoutedEventArgs e)
+        private void HordeBoard(object sender, RoutedEventArgs e)
         {
-            OptionSelected.Invoke(StartMenuOption.FourChess);
-            
+            OptionSelected.Invoke(StartMenuOption.HordeBoard);
         }
 
         private void RegChess(object sender, RoutedEventArgs e)
         {
-            OptionSelected.Invoke(StartMenuOption.RegChess);
-           
+            OptionSelected.Invoke(StartMenuOption.RegChess);           
         }
         private void Chess960(object sender, RoutedEventArgs e)
         {

@@ -9,7 +9,7 @@ namespace ChessUI
     public enum StartMenuOption
     {
         RegChess,
-        FourChess,
+        HordeBoard,
         ExpChess,
         Chess960
     }

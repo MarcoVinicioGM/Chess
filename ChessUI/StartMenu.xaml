@@ -44,12 +44,12 @@
 
             <Button
                 Grid.Row="1"
-                Content="4x4 Chess"
+                Content="HordeBoard"
                 Style="{StaticResource ButtonStyle}"
                 FontSize="10"
                 Width="80"
                 Height="20"
-                Click="FourChess" Grid.ColumnSpan="2" Margin="94,23,93,27" Grid.RowSpan="2"/>
+                Click="HordeBoard" Grid.ColumnSpan="2" Margin="94,23,93,27" Grid.RowSpan="2"/>
 
             <Button
                 Grid.Row="1"
