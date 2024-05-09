@@ -10,6 +10,7 @@ namespace ChessUI
     {
         RegChess,
         FourChess,
-        ExpChess
+        ExpChess,
+        Chess960
     }
 }

@@ -45,5 +45,9 @@ namespace ChessUI
             OptionSelected.Invoke(StartMenuOption.RegChess);
            
         }
+        private void Chess960(object sender, RoutedEventArgs e)
+        {
+            OptionSelected.Invoke(StartMenuOption.Chess960);
+        }
     }
 }

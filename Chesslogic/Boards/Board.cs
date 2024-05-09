@@ -1,5 +1,4 @@
 ﻿
-
 using ChessLogic;
 
 namespace Chesslogic
@@ -105,7 +104,7 @@ namespace Chesslogic
                 }
             }
         }
-        private void AddBasePieces()
+        protected virtual void AddBasePieces()
         {
             for (int i = 0; i < 8; i++)
             {

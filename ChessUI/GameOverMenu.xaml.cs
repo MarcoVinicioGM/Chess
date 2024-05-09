@@ -10,7 +10,7 @@ namespace ChessUI
     public partial class GameOverMenu : UserControl
     {
 
-        public event Action<Option> OptionSelected;
+        public event Action<GameOverOption> OptionSelected;
         public GameOverMenu(Game gameState)
         {
             InitializeComponent();
@@ -56,12 +56,12 @@ namespace ChessUI
 
         private void Restart_Click(object sender, RoutedEventArgs e)
         {
-            OptionSelected?.Invoke(Option.Restart);
+            OptionSelected?.Invoke(GameOverOption.Restart);
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
-            OptionSelected.Invoke(Option.Exit);
+            OptionSelected.Invoke(GameOverOption.Exit);
         }
     }
 }
