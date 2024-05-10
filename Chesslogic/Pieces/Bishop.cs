@@ -5,32 +5,44 @@
         public override PieceType Type => PieceType.Bishop;
         public override Player Color { get; }
 
-        private static readonly PositionDirection[] dirs = new PositionDirection[]
+        private static readonly PositionDirection[] Directions =
         {
             PositionDirection.UpLeft,
             PositionDirection.UpRight,
             PositionDirection.DownLeft,
             PositionDirection.DownRight
         };
+
         public Bishop(Player color)
         {
             Color = color;
         }
-        public Bishop(int row, int col, Player color)
-        {
-            this.row = row;
-            this.col = col;
-            Color = color;
-        }
+
         public override Piece Copy()
         {
             Bishop copy = new Bishop(Color);
             copy.HasMoved = HasMoved;
             return copy;
         }
+
         public override IEnumerable<Moves> GetMoves(Position from, Board board)
+            => GenerateMoves(from, board, Directions);
+
+        private IEnumerable<Moves> GenerateMoves(Position from, Board board, PositionDirection[] directions)
         {
-            return MovePositionInDir(from, board, dirs).Select(to => new normalMove(from, to));
+            foreach (PositionDirection direction in directions)
+            {
+                Position nextPosition = from + direction;
+
+                while (Board.IsInBounds(nextPosition) && board.isEmpty(nextPosition))
+                {
+                    yield return new normalMove(from, nextPosition);
+                    nextPosition += direction;
+                }
+
+                if (Board.IsInBounds(nextPosition) && board[nextPosition].Color != Color)
+                    yield return new normalMove(from, nextPosition);
+            }
         }
     }
 }

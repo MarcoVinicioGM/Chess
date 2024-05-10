@@ -262,7 +262,6 @@ namespace ChessUI
                     // Handle default case
                     break;
             }
-
             Showcase(gameState.Board);
         }
 

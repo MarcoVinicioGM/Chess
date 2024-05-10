@@ -13,7 +13,9 @@
         public Castling(MovementType type, Position KingPos)
         {
             Type = type;
+
             FromPosition = KingPos;
+
             if (type == MovementType.CastleKingSide)
             {
                 KingDirection = PositionDirection.Right;

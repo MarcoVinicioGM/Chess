@@ -5,117 +5,89 @@
         public override PieceType Type => PieceType.Pawn;
         public override Player Color { get; }
 
-        private readonly PositionDirection forward;
+        private readonly PositionDirection forwardDirection;
 
         public Pawn(Player color)
         {
             Color = color;
-            if (Color == Player.White)
-            {
-                forward = PositionDirection.Up;
-            }
-            else
-            {
-                forward = PositionDirection.Down;
-            }
+            forwardDirection = color == Player.White ? PositionDirection.Up : PositionDirection.Down;
         }
-        private static bool canMove(Position pos, Board board)
-        {
-            return Board.IsInBounds(pos) && board.isEmpty(pos);
-        }
+
+        private bool CanMoveForward(Position pos, Board board)
+            => Board.IsInBounds(pos) && board.isEmpty(pos);
+
         private bool CanCapture(Position pos, Board board)
         {
             if (!Board.IsInBounds(pos) || board.isEmpty(pos))
-            {
                 return false;
-            }
+
             return board[pos].Color != Color;
         }
 
-        private IEnumerable<Moves> ForwardMoves(Position from, Board board)
+        private IEnumerable<Moves> GenerateForwardMoves(Position from, Board board)
         {
-            Position ahead = from + forward;
+            Position nextPosition = from + forwardDirection;
 
-            if (canMove(ahead, board))
+            if (CanMoveForward(nextPosition, board))
             {
-                if (ahead.Row == 0 || ahead.Row == 7)
+                if (IsPromotionRow(nextPosition.Row))
                 {
-                    foreach (Moves move in PromotionMoves(from, ahead))
-                    {
+                    foreach (Moves move in GeneratePromotionMoves(from, nextPosition))
                         yield return move;
-                    }
                 }
                 else
                 {
-                    yield return new normalMove(from, ahead);
+                    yield return new normalMove(from, nextPosition);
                 }
 
-                if (canMove(ahead + forward, board) && !HasMoved)
-                {
-                    yield return new SkippedPawn(from, ahead + forward);
-                }
+                if (CanDoubleAdvance(nextPosition, board) && !HasMoved)
+                    yield return new SkippedPawn(from, nextPosition + forwardDirection);
             }
         }
-        private IEnumerable<Moves> Captures(Position from, Board board)
+
+        private IEnumerable<Moves> GenerateCaptureMoves(Position from, Board board)
         {
-            foreach (PositionDirection dir in new PositionDirection[]
-            {PositionDirection.Left, PositionDirection.Right})
+            foreach (PositionDirection direction in new[] { PositionDirection.Left, PositionDirection.Right })
             {
-                Position to = from + forward + dir;
+                Position capturePosition = from + forwardDirection + direction;
 
-                if (to == board.getPawnSkippedSpaces(Color.Oppponent()))
-
+                if (capturePosition == board.getPawnSkippedSpaces(Color.Oppponent()))
+                    yield return new EnPassant(from, capturePosition);
+                else if (CanCapture(capturePosition, board))
                 {
-                    yield return new EnPassant(from, to);
-                }
-                else if (CanCapture(to, board))
-                {
-                    if (to.Row == 0 || to.Row == 7)
+                    if (IsPromotionRow(capturePosition.Row))
                     {
-                        foreach (Moves move in PromotionMoves(from, to))
-                        {
+                        foreach (Moves move in GeneratePromotionMoves(from, capturePosition))
                             yield return move;
-                        }
                     }
                     else
                     {
-                        yield return new normalMove(from, to);
+                        yield return new normalMove(from, capturePosition);
                     }
                 }
             }
         }
 
         public override IEnumerable<Moves> GetMoves(Position from, Board board)
+            => GenerateForwardMoves(from, board).Concat(GenerateCaptureMoves(from, board));
+
+        private static IEnumerable<Moves> GeneratePromotionMoves(Position from, Position to)
         {
-            return ForwardMoves(from, board).Concat(Captures(from, board));
+            foreach (PieceType pieceType in new[] { PieceType.Queen, PieceType.Rook, PieceType.Bishop, PieceType.Knight })
+                yield return new Promotion(from, to, pieceType);
         }
 
-        private static IEnumerable<Moves> PromotionMoves(Position from, Position to)
-        {
+        private bool CanDoubleAdvance(Position nextPosition, Board board)
+            => Board.IsInBounds(nextPosition + forwardDirection) && board.isEmpty(nextPosition) && board.isEmpty(nextPosition + forwardDirection);
 
-            foreach (PieceType pt in new PieceType[]
-            {
-                PieceType.Queen,
-                PieceType.Rook,
-                PieceType.Bishop,
-                PieceType.Knight
-            })
-            {
-                yield return new Promotion(from, to, pt);
-            }
+        private bool IsPromotionRow(int row)
+            => row == 0 || row == 7;
 
-        }
         public override Piece Copy()
         {
             Pawn copy = new Pawn(Color);
             copy.HasMoved = HasMoved;
             return copy;
-        }
-        public Pawn(int row, int col, Player color)
-        {
-            this.row = row;
-            this.col = col;
-            Color = color;
         }
     }
 }

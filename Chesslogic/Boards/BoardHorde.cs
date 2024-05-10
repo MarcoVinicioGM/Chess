@@ -43,6 +43,7 @@ namespace Chesslogic.Boards
             this[0, 7] = new Rook(Player.Black);
 
         }
+
     }
 }
 
