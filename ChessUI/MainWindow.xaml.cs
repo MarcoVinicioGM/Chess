@@ -17,14 +17,15 @@ namespace ChessUI
 
         private readonly System.Windows.Shapes.Rectangle[,] highlights = new System.Windows.Shapes.Rectangle[8, 8];
         private readonly Dictionary<Position, Moves> moveCache = new Dictionary<Position, Moves>();
-        private static String fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+        private String fen;
         private ChessMode currentMode;
         private enum ChessMode
         {
             RegularChess = 0,
             ExplodingChess = 1,
             Chess960 = 2,
-            HordeBoard = 3
+            HordeBoard = 3,
+            FenBoard = 4
         }
 
         public MainWindow()
@@ -35,7 +36,14 @@ namespace ChessUI
             switch(currentMode)
             {
                 case ChessMode.RegularChess:
-                    gameState = new Game(Player.White, Board.Initialize());
+                    if(fen != null)
+                    {
+                        gameState = new Game(Player.White, Board.Initialize(fen));
+                    }
+                    else
+                    {
+                        gameState = new Game(Player.White, Board.Initialize());
+                    }
                     break;
                 case ChessMode.ExplodingChess:
                     gameState = new AtomicChess(Player.White, Board.Initialize());
@@ -63,7 +71,7 @@ namespace ChessUI
                 switch (option)
                 {
                     case StartMenuOption.RegChess:
-                        currentMode = ChessMode.RegularChess;   
+                        currentMode = ChessMode.RegularChess;
                         break;
 
                     case StartMenuOption.HordeBoard:
@@ -75,6 +83,10 @@ namespace ChessUI
                         break;
                     case StartMenuOption.Chess960:
                         currentMode = ChessMode.Chess960;
+                        break;
+                    case StartMenuOption.FenBoard:
+                        currentMode = ChessMode.FenBoard;
+                        fen = startMenu.UserInput;
                         break;
 
                     default:
@@ -247,7 +259,7 @@ namespace ChessUI
             switch (currentMode)
             {
                 case ChessMode.RegularChess:
-                    gameState = new Game(Player.White, Board.Initialize());
+                        gameState = new Game(Player.White, Board.Initialize());
                     break;
                 case ChessMode.ExplodingChess:
                     gameState = new AtomicChess(Player.White, Board.Initialize());
@@ -258,8 +270,12 @@ namespace ChessUI
                 case ChessMode.HordeBoard:
                     gameState = new Game(Player.White, BoardHorde.Initialize());
                     break;
+                case ChessMode.FenBoard:
+                    gameState = new Game(Player.White, Board.Initialize(fen));
+                    break;
                 default:
-                    // Handle default case
+
+                    gameState = new Game(Player.White, Board.Initialize());
                     break;
             }
             Showcase(gameState.Board);

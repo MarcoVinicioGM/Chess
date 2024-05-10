@@ -22,10 +22,18 @@ namespace ChessUI
     {
 
         public event Action<StartMenuOption> OptionSelected;
- 
+
+        public string UserInput { get; private set; }
+
+
         public StartMenu()
         {
             InitializeComponent();
+        }
+        private void SaveInputButton_Click(object sender, RoutedEventArgs e)
+        {
+            UserInput = InputTextBox.Text;
+            OptionSelected.Invoke(StartMenuOption.FenBoard);
         }
 
         private void ExpChess(object sender, RoutedEventArgs e)

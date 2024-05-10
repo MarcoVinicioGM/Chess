@@ -11,6 +11,8 @@ namespace ChessUI
         RegChess,
         HordeBoard,
         ExpChess,
-        Chess960
+        Chess960,
+        FenBoard
+
     }
 }
